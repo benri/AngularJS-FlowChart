@@ -540,7 +540,7 @@ var flowchart = {
 			var outputConnector = startConnectorType == 'output' ? startConnector : endConnector;
 			var inputConnector = startConnectorType == 'output' ? endConnector : startConnector;
 
-			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputConnector, inputConnector);
+			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputConnector, inputConnector, this._vertical);
 			connectionsViewModel.push(connectionViewModel);
 		};
 
@@ -560,7 +560,7 @@ var flowchart = {
 			// 
 			// Update the view model.
 			//
-			this.nodes.push(new flowchart.NodeViewModel(nodeDataModel));		
+			this.nodes.push(new flowchart.NodeViewModel(nodeDataModel, this._vertical));
 		}
 
 		//

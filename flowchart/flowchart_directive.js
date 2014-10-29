@@ -24,7 +24,7 @@ angular.module('flowChart', ['dragging'] )
   	controller: 'FlowChartController',
     link: function (scope, elem, attr) {
 
-        scope.vertical = (angular.isDefined(attrs.vertical)) ? (attrs.vertical !== 'false') : false;
+        scope.vertical = (angular.isDefined(attr.vertical)) ? (attr.vertical !== 'false') : false;
     }
   };
 })
