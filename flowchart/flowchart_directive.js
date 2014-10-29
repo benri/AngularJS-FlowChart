@@ -22,6 +22,10 @@ angular.module('flowChart', ['dragging'] )
   	// (which is possible, just not ideal).
   	//
   	controller: 'FlowChartController',
+    link: function (scope, elem, attr) {
+
+        scope.vertical = (angular.isDefined(attrs.vertical)) ? (attrs.vertical !== 'false') : false;
+    }
   };
 })
 
@@ -334,6 +338,10 @@ angular.module('flowChart', ['dragging'] )
 		});
 	};
 
+    $scope.deleteConnection = function(connection) {
+        $scope.chart.deleteConnection(connection);
+    };
+
 	//
 	// Handle mousedown on a connection.
 	//
@@ -365,7 +373,7 @@ angular.module('flowChart', ['dragging'] )
 				var curCoords = controller.translateCoordinates(x, y, evt);
 
 				$scope.draggingConnection = true;
-				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector);
+				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector, $scope.vertical);
 				$scope.dragPoint2 = {
 					x: curCoords.x,
 					y: curCoords.y
@@ -379,7 +387,7 @@ angular.module('flowChart', ['dragging'] )
 			//
 			dragging: function (x, y, evt) {
 				var startCoords = controller.translateCoordinates(x, y, evt);
-				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector);
+				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector, $scope.vertical);
 				$scope.dragPoint2 = {
 					x: startCoords.x,
 					y: startCoords.y

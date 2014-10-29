@@ -16,12 +16,12 @@
       <stop 
         offset="0" 
         stop-opacity="0.99609" 
-        stop-color="#56aaff"
+        stop-color="#dddddd"
         />
         <stop 
         offset="0.63934" 
         stop-opacity="0.99219" 
-        stop-color="#d0d0e5"
+        stop-color="#eeeeee"
         />
     </linearGradient>
   </defs>
@@ -45,7 +45,7 @@
 
     <text
       ng-attr-x="{{node.width()/2}}"
-      y="25"
+      ng-attr-y="{{ (vertical ? node.height()/2 : 25) }}"
       text-anchor="middle"
       alignment-baseline="middle"
       >
@@ -58,9 +58,9 @@
       class="connector input-connector"
       >
       <text
-        ng-attr-x="{{connector.x() + 20}}"
-        ng-attr-y="{{connector.y()}}"
-        text-anchor="left"
+        ng-attr-x="{{connector.x() + (vertical ? 0 : 20)}}"
+        ng-attr-y="{{connector.y() + (vertical ? 15 : 0)}}"
+        ng-attr-text-anchor="{{(vertical ? 'middle':'left')}}"
         alignment-baseline="middle"
         >
         {{connector.name()}}
@@ -80,9 +80,9 @@
       class="connector output-connector"
       >
       <text
-        ng-attr-x="{{connector.x() - 20}}"
-        ng-attr-y="{{connector.y()}}"
-        text-anchor="end"
+        ng-attr-x="{{connector.x() - (vertical ? 0 : 20)}}"
+        ng-attr-y="{{connector.y() - (vertical ? 15 : 0)}}"
+        ng-attr-text-anchor="{{(vertical ? 'middle':'end')}}"
         alignment-baseline="middle"
         >
         {{connector.name()}}
