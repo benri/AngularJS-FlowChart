@@ -13,7 +13,7 @@ var flowchart = {
 	// Width of a node.
 	//
 	flowchart.nodeWidth = 250;
-    flowchart.nodeHeight = 100;
+    flowchart.nodeHeight = 125;
 
 	//
 	// Amount of space reserved for displaying the node's name.
@@ -108,8 +108,8 @@ var flowchart = {
 	//
 	flowchart.NodeViewModel = function (nodeDataModel, vertical) {
 
-        // Vertical or horizontal node.
-        this._vertical = (arguments.length == 2 && typeof arguments[1] == "boolean") ? arguments[1] : false;
+		// Vertical or horizontal node.
+		this._vertical = (arguments.length == 2 && typeof arguments[1] == "boolean") ? arguments[1] : false;
 
 		this.data = nodeDataModel;
 		this.inputConnectors = createConnectorsViewModel(this.data.inputConnectors, 0, this);
@@ -245,8 +245,8 @@ var flowchart = {
 	//
 	flowchart.ConnectionViewModel = function (connectionDataModel, sourceConnector, destConnector, vertical) {
 
-        // Vertical or horizontal node.
-        this._vertical = (arguments.length == 4 && typeof arguments[3] == "boolean") ? arguments[3] : false;
+		// Vertical or horizontal node.
+		this._vertical = (arguments.length == 4 && typeof arguments[3] == "boolean") ? arguments[3] : false;
 
 		this.data = connectionDataModel;
 		this.source = sourceConnector;
@@ -271,11 +271,11 @@ var flowchart = {
 		};
 
 		this.sourceTangentX = function () { 
-			return flowchart.computeConnectionSourceTangentX(this.sourceCoord(), this.destCoord());
+			return flowchart.computeConnectionSourceTangentX(this.sourceCoord(), this.destCoord(), this._vertical);
 		};
 
 		this.sourceTangentY = function () { 
-			return flowchart.computeConnectionSourceTangentY(this.sourceCoord(), this.destCoord());
+			return flowchart.computeConnectionSourceTangentY(this.sourceCoord(), this.destCoord(), this._vertical);
 		};
 
 		this.destCoordX = function () { 
@@ -343,7 +343,7 @@ var flowchart = {
 	//
 	flowchart.computeConnectionSourceTangentX = function (pt1, pt2, vertical) {
 
-		return pt1.x + (vertical ? 0 : computeConnectionTangentOffset(pt1, pt2, vertical));
+		return (vertical ? pt1.x : pt1.x + computeConnectionTangentOffset(pt1, pt2, vertical));
 	};
 
 	//
@@ -351,7 +351,7 @@ var flowchart = {
 	//
 	flowchart.computeConnectionSourceTangentY = function (pt1, pt2, vertical) {
 
-		return pt1.y + (vertical ? computeConnectionTangentOffset(pt1, pt2, vertical) : 0);
+		return (vertical ? pt1.y + computeConnectionTangentOffset(pt1, pt2, vertical) : pt1.y);
 	};
 
 	//
@@ -467,8 +467,8 @@ var flowchart = {
 		// Reference to the underlying data.
 		this.data = chartDataModel;
 
-        // vertical or horizontal chart model
-        this.vertical = (arguments.length == 2 && typeof arguments[1] == "boolean") ? arguments[1] : false;
+		// vertical or horizontal chart model
+		this.vertical = (arguments.length == 2 && typeof arguments[1] == "boolean") ? arguments[1] : false;
 
 		// Create a view-model for nodes.
 		this.nodes = createNodesViewModel(this.data.nodes, this.vertical);
@@ -540,7 +540,7 @@ var flowchart = {
 			var outputConnector = startConnectorType == 'output' ? startConnector : endConnector;
 			var inputConnector = startConnectorType == 'output' ? endConnector : startConnector;
 
-			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputConnector, inputConnector, this._vertical);
+			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputConnector, inputConnector, this.vertical);
 			connectionsViewModel.push(connectionViewModel);
 		};
 
@@ -560,7 +560,7 @@ var flowchart = {
 			// 
 			// Update the view model.
 			//
-			this.nodes.push(new flowchart.NodeViewModel(nodeDataModel, this._vertical));
+			this.nodes.push(new flowchart.NodeViewModel(nodeDataModel, this.vertical));
 		}
 
 		//
